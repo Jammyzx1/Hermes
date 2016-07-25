@@ -1,0 +1,14 @@
+Prepare_HISTORY_for_Hermes.py    - This should be used before task 1 is run if you wish to analyses a DL POLY run.
+                                   It should be run in same directory as the DL POLY HISTORY file and will produce
+                                   a labelled.xyz file which is the additional input for task 1 in Hermes.
+
+Prepare_Tyche_gjfs_for_Hermes.py - This should be used before task 1 is run if you wish to analyses a set of Tyche
+                                   distortions. It should be run in same directory as the GJF s from Tyche and
+                                   will producea labelled.xyz file which is the additional input for task 1 in
+                                   Hermes.
+
+STACKED-XYZ-TO-GJF.py            - Will convert a stacked xyz file from task 2 or task 3 in to a set of gjfs
+
+STACKED-XYZ-TO-GJF-SORT.py       - Will convert a stacked xyz file from task 2 or task 3 in to a set of gjfs and
+                                   sort them in to directories dependent on the number of water solvent molecules given
+
