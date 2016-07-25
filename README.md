@@ -164,134 +164,151 @@ The R scripts are :
 -------------------------------------------------
 (see directory R_scripts_plots)
 
-MDplot.R                         - This script will automatically plot the data from task 1 in R. The commands to run this
-                                   script in R are ;
-                                   
-                                   1. set path to the directory where you have run Hermes
-                                      path <- path/to/Hermes
-                                      setwd(path)
-				   2. load the script
-				      source("MDplot.R")
-				   3. run the script
-				      MDplot.R(path)
+MDplot.R  - This script will automatically plot the data from task 1 in R. The commands to run this
+            script in R are ;
+
+1. set path to the directory where you have run Hermes 
+
+        `path <- path/to/Hermes`
+        `setwd(path)`
+        
+2. load the script
+
+	`source("MDplot.R")`
+	
+3. run the script
+
+	`MDplot.R(path)`
 -------------------------------------------------
 
-# FORMAT
-# task is always the first parameter word and defines the calculation type
-# tasks can be defined by a word or the task number
-# Task 1 word structure number 1
-# Task 2 word microsolv number 2
-# Task 3 word solvshell number 3
-# Task 4 word statskrig number 4
-# The file always has a line END the last line
-#------------------------------------------------
-# FOR TASK 1 
-# Options are :
-# filename - list of bonds angles and dihedrals to calculate or auto to automatically generate this input
-# atom - an atom to centre the coordiates on for clearer viewing in jmol
-# REQUIRES A labelled.xyz FILE GENERATED FROM A DL POLY HISTORY FILE USING Prepare_HISTORY_for_Hermes.py FROM Python-processing-scripts SUB-DIRECTORY OR
-# A labelled.xyz FILE GENERATED FROM TYCHE GJF FILES USING Prepare_Tyche_gjfs_for_Hermes.py FROM Python-processing-scripts SUB-DIRECTORY.
-# If creating a labelled.xyz file from Tyche's gjfs run the python script in the same directory as the gjfs then copy the labelled.xyz file to where you are running Hermes.
-# An R script is provided which can produce plots of  all data on bonds, bond angles and dihedrals deviation automatically. Just run the R script in the directory where you have
-# run Hermes and provide the path to that directory as the arguement to the function. See readme in the R script directory for R specific commands.
-#------------------------------------------------
+## FORMAT
+###### task is always the first parameter word and defines the calculation type
+###### tasks can be defined by a word or the task number
+######Task 1 word structure number 1
+######Task 2 word microsolv number 2
+###### Task 3 word solvshell number 3
+###### Task 4 word statskrig number 4
+###### The file always has a line END the last line
 
-task structure
-filename auto
-atom C1
-END
+------------------------------------------------
 
-task 1
-filename auto
-atom C1
-END
+## FOR TASK 1 
+###### Options are :
+###### filename - list of bonds angles and dihedrals to calculate or auto to automatically generate this input
+###### atom - an atom to centre the coordiates on for clearer viewing in jmol
 
-task 1
-filename inputbonds.txt
-atom N1
-END
+REQUIRES A labelled.xyz FILE GENERATED FROM A DL POLY HISTORY FILE USING Prepare_HISTORY_for_Hermes.py FROM Python-processing-scripts SUB-DIRECTORY OR
+ A labelled.xyz FILE GENERATED FROM TYCHE GJF FILES USING Prepare_Tyche_gjfs_for_Hermes.py FROM Python-processing-scripts SUB-DIRECTORY.
+If creating a labelled.xyz file from Tyche's gjfs run the python script in the same directory as the gjfs then copy the labelled.xyz file to where you are running Hermes.
+An R script is provided which can produce plots of  all data on bonds, bond angles and dihedrals deviation automatically. Just run the R script in the directory where you have
+ run Hermes and provide the path to that directory as the arguement to the function. See readme in the R script directory for R specific commands.
 
-#------------------------------------------------
-# FOR TASK 2
-# Options are :
-# Otype - The oxygen label of the solvent water molecule
-# solute - The atom label of the solute to calculate the rdf from
-# solvent charge sites - The number of solvent charge sites eg TIP3P = 3 TIP5P = 5
-# solute number - The number of atoms in the solute
-# REQUIRES HISTORY FILE FROM DL POLY IN THE SAME DIRECTORY
-#------------------------------------------------
+------------------------------------------------
 
-task microsolv
-Otype OTP
-solute name OC
-solvent charge sites 3
-solute number 15
-END
+######task structure
+######filename auto
+######atom C1
+######END
 
-task 2
-Otype OTP
-solute name OC
-solvent charge sites 3
-solute number 15
-END
+######task 1
+######filename auto
+######atom C1
+######END
 
-task microsolv
-Otype OP3
-solute name CH
-solvent charge sites 5
-solute number 15
-END
+######task 1
+######filename inputbonds.txt
+######atom N1
+######END
 
-#------------------------------------------------
-# FOR TASK 3
-# Options are :
-# Otype - The oxygen label of the solvent water molecule
-# solute filename - The filename of a file which contains a list of solute atom types to calculate the rdf from 
-# ( it will calculate an rdf from each and take the maximum value as the first solvation shell cut off for the whole molecule)
-# solvent charge sites - The number of solvent charge sites eg TIP3P = 3 TIP5P = 5
-# solute number - The number of atoms in the solute
-# REQUIRES HISTORY FILE FROM DL POLY IN THE SAME DIRECTORY
-#------------------------------------------------
+------------------------------------------------
+## FOR TASK 2
+###### Options are :
+###### Otype - The oxygen label of the solvent water molecule
+###### solute - The atom label of the solute to calculate the rdf from
+###### solvent charge sites - The number of solvent charge sites eg TIP3P = 3 TIP5P = 5
+###### solute number - The number of atoms in the solute
 
-task solvshell
-Otype OTP
-solute filename solute
-solvent charge sites 3
-solute number 15
-END
+ REQUIRES HISTORY FILE FROM DL POLY IN THE SAME DIRECTORY
 
-task 3
-Otype OTP
-solute filename solute_atoms.inp
-solvent charge sites 3
-solute number 15
-END
+------------------------------------------------
 
-task 3
-Otype OP3
-solute filename sol.in
-solvent charge sites 5
-solute number 15
-END
+######task microsolv
+######Otype OTP
+######solute name OC
+######solvent charge sites 3
+######solute number 15
+######END
 
-#------------------------------------------------
-# FOR TASK 4
-# Options are :
-# multipole - To analysing data after kriging multipoles
-# IQA - To analysing data after kriging IQA self and interaction terms
-# REQUIRES FINPUT FILE AND PREDICTION IN THE SAME DIRECTORY
-#------------------------------------------------
+######task 2
+######Otype OTP
+######solute name OC
+######solvent charge sites 3
+######solute number 15
+######END
 
-task statskrig
-multipole 
-END
+######task microsolv
+######Otype OP3
+######solute name CH
+######solvent charge sites 5
+######solute number 15
+######END
 
-task statskrig
-IQA
-END
+------------------------------------------------
 
-task 4
-IQA
-END
+## FOR TASK 3
+###### Options are :
+###### Otype - The oxygen label of the solvent water molecule
+###### solute filename - The filename of a file which contains a list of solute atom types to calculate the rdf from 
+###### ( it will calculate an rdf from each and take the maximum value as the first solvation shell cut off for the whole molecule)
+######solvent charge sites - The number of solvent charge sites eg TIP3P = 3 TIP5P = 5
+######solute number - The number of atoms in the solute
+
+ REQUIRES HISTORY FILE FROM DL POLY IN THE SAME DIRECTORY
+
+------------------------------------------------
+
+######task solvshell
+######Otype OTP
+######solute filename solute
+######solvent charge sites 3
+######solute number 15
+######END
+
+######task 3
+######Otype OTP
+######solute filename solute_atoms.inp
+######solvent charge sites 3
+######solute number 15
+######END
+
+######task 3
+######Otype OP3
+######solute filename sol.in
+######solvent charge sites 5
+######solute number 15
+######END
+
+------------------------------------------------
+
+## FOR TASK 4
+######Options are :
+###### multipole - To analysing data after kriging multipoles
+###### IQA - To analysing data after kriging IQA self and interaction terms
+
+ REQUIRES FINPUT FILE AND PREDICTION IN THE SAME DIRECTORY
+
+------------------------------------------------
+
+######task statskrig
+######multipole 
+######END
+
+######task statskrig
+######IQA
+######END
+
+######task 4
+######IQA
+######END
 
 -------------------------------------------------
