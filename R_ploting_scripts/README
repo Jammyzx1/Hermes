@@ -1,0 +1,11 @@
+MDplot.R                         - This script will automatically plot the data from task 1 in R. The commands to run this
+                                   script in R are ;
+
+                                   1. set path to the directory where you have run Hermes
+                                      path <- path/to/Hermes
+                                      setwd(path)
+                                   2. load the script
+                                      source("MDplot.R")
+                                   3. run the script
+                                      MDplot.R(path)
+
