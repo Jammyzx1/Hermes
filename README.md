@@ -1,5 +1,5 @@
 # Hermes
-Structural analysis tool for normal modes distortion
+Structural analysis tool for normal modes distortion and molecular dynamics trajectories
 
 README for Hermes Version 1.1
 
