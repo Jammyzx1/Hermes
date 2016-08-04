@@ -27,7 +27,7 @@ def labeller(element,cO,cH,cC,cN) :
 
 # User input and variables 
 atom_number = input('Please enter the number of atoms ')
-startline = 9                                                        # The line number to start reading from gjfs 
+startline = input('Please enter the line the number the molecular coordinates begin on in the gjf files from tyche ') # The line number to start reading from gjfs 
 end_line = startline + atom_number                                   # The last line in the gjf to read
 #file_list = []
 geom = 0
