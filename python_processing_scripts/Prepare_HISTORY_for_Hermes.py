@@ -28,8 +28,8 @@ def labeller(element,cO,cH,cC,cN) :
 #------- Get the user input -------
 
 boxsize = str(raw_input('Please, enter the length of one of the box edges this code assumes the box is cubic - '))
-watO = str(raw_input('Please enter the water oxygen atom type (eg OTP) - '))
-watH = str(raw_input('Please enter the water hydrogen atom type (eg H3P) - '))
+watO = str(raw_input('Please enter the water oxygen atom type (eg OTP) if any or NNAA if not- '))
+watH = str(raw_input('Please enter the water hydrogen atom type (eg H3P) if any or NNAA if not- '))
 name = 'labelled.xyz'
 
 #------- Set the regex -------
@@ -59,17 +59,14 @@ cH = 0
 cC = 0
 cN = 0
 for line in filein :
-#	print'in filein loop'
 	i = i + 1
 	if  i == 1 :
 		title = line
 		fileout.write(title)
 
 	startline = match(pattern,line)
-#	print startline
 
 	if startline :
-#		print (line)
 		j = j + 1
 		fileout.write('Cubic cell of size ' + boxsize)
 		fileout.write('\n----------- ' + str(j) + ' ----------\n')
@@ -81,7 +78,7 @@ for line in filein :
 		atomcount = atcount
 		atcount = 0
 
-	valid = match('[CHNOTW1]',line)
+	valid = match('[CHNOTW1]',line) # Add to this list any other valid values in the atom names you want included in the analysis
 	waterO = match(watO,line)
 	waterH = match(watH,line)
 
@@ -132,7 +129,7 @@ filein.close()
 fileout.close()
 temporyfile.close()
 stratomcount = str(atomcount)
-command = "sed -i '2i Atom Count : %s' labelled.xyz" % (stratomcount)
+command = "sed -i '2i Atom Count : %s' labelled.xyz" % (stratomcount) # Mac's might have a problem with this line
 subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 
 #------- display tempory file -------
