@@ -42,7 +42,7 @@ product.write(Tyche_message + '\n')
 # Write the distorted molecules postions 
 file_list = next(os.walk(os.getcwd()))[2]
 
-for file in glob.glob('*.gjf') :
+for file in sorted(glob.glob('*.gjf')) :
 	print file
 	line_number = 0
 	cO = 0
