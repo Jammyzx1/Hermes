@@ -27,7 +27,7 @@ def labeller(element,cO,cH,cC,cN) :
 
 # User input and variables 
 atom_number = input('Please enter the number of atoms ')
-startline = 9                                                        # The line number to start reading from gjfs 
+startline = input('Please enter the line the number the molecular coordinates begin on in the gjf files from tyche ') # The line number to start reading from gjfs 
 end_line = startline + atom_number                                   # The last line in the gjf to read
 #file_list = []
 geom = 0
@@ -42,7 +42,7 @@ product.write(Tyche_message + '\n')
 # Write the distorted molecules postions 
 file_list = next(os.walk(os.getcwd()))[2]
 
-for file in glob.glob('*.gjf') :
+for file in sorted(glob.glob('*.gjf')) :
 	print file
 	line_number = 0
 	cO = 0

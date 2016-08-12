@@ -9,3 +9,5 @@ MDplot.R                         - This script will automatically plot the data 
                                    3. run the script
                                       MDplot.R(path)
 
+NOTE: This script is currently set for windows to use on UNIX systems please change the file separators from \\ to / on lines 6,
+10 and 14
