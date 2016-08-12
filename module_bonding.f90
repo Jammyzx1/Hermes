@@ -357,12 +357,12 @@ contains
 !- - - - - - - - - Log - - - - - - - - - - - - - - 
   write(200,'(A)') 'Bonded list'
   write(200,'(13(A5,1X))') atoms 
-  do var = 1, atom_count  
-     write(200,'(13(I5,1X))') int(bonds(1,var,4)), int(bonds(2,var,4)), int(bonds(3,var,4)), &
-          int(bonds(4,var,4)), int(bonds(5,var,4)), int(bonds(6,var,4)) ,int(bonds(7,var,4)), &
-          int(bonds(8,var,4)), int(bonds(9,var,4)), int(bonds(10,var,4)), int(bonds(11,var,4)) &
-          , int(bonds(12,var,4)), int(bonds(13,var,4))      ! JMcD DIAGNOS
-  end do
+!  do var = 1, atom_count  
+!     write(200,'(13(I5,1X))') int(bonds(1,var,4)), int(bonds(2,var,4)), int(bonds(3,var,4)), &
+!          int(bonds(4,var,4)), int(bonds(5,var,4)), int(bonds(6,var,4)) ,int(bonds(7,var,4)), &
+!          int(bonds(8,var,4)), int(bonds(9,var,4)), int(bonds(10,var,4)), int(bonds(11,var,4)) &
+!          , int(bonds(12,var,4)), int(bonds(13,var,4))      ! JMcD DIAGNOS
+!  end do
   write(200,'(20X)')
 !
 !--------------- Re-zero bonds --------------------------------------------------
@@ -585,12 +585,12 @@ contains
 !- - - - - - - - - Log - - - - - - - - - - - - - - 
   write(200,'(A)') 'Bonded list'
   write(200,'(13(A5,1X))') atoms 
-  do var = 1, atom_count
-     write(200,'(13(I5,1X))') int(bonds(1,var,4)), int(bonds(2,var,4)), int(bonds(3,var,4)), &
-          int(bonds(4,var,4)), int(bonds(5,var,4)), int(bonds(6,var,4)) ,int(bonds(7,var,4)), &
-          int(bonds(8,var,4)), int(bonds(9,var,4)), int(bonds(10,var,4)), int(bonds(11,var,4)) &
-          , int(bonds(12,var,4)), int(bonds(13,var,4))      ! JMcD DIAGNOS
-  end do
+!  do var = 1, atom_count
+!     write(200,'(13(I5,1X))') int(bonds(1,var,4)), int(bonds(2,var,4)), int(bonds(3,var,4)), &
+!          int(bonds(4,var,4)), int(bonds(5,var,4)), int(bonds(6,var,4)) ,int(bonds(7,var,4)), &
+!          int(bonds(8,var,4)), int(bonds(9,var,4)), int(bonds(10,var,4)), int(bonds(11,var,4)) &
+!          , int(bonds(12,var,4)), int(bonds(13,var,4))      ! JMcD DIAGNOS
+!  end do
   write(200,'(20X)')
 !  print*, atoms                                                                                                                               ! JMcD DIAGNOS
 !  write(*,'(13(I5,1X))') int(bonds(1,1,4)), int(bonds(2,1,4)), int(bonds(3,1,4)), int(bonds(4,1,4)), int(bonds(5,1,4)), int(bonds(6,1,4)) &   ! JMcD DIAGNOS
@@ -777,12 +777,12 @@ contains
 !- - - - - - - - - Log - - - - - - - - - - - - - - 
   write(200,'(A)') 'Bonded list'
   write(200,'(13(A5,1X))') atoms 
-  do var = 1, atom_count
-       write(200,'(13(I5,1X))') int(bonds(1,var,4)), int(bonds(2,var,4)), int(bonds(3,var,4)), &
-          int(bonds(4,var,4)), int(bonds(5,var,4)), int(bonds(6,var,4)) ,int(bonds(7,var,4)), &
-          int(bonds(8,var,4)), int(bonds(9,var,4)), int(bonds(10,var,4)), int(bonds(11,var,4)) &
-          , int(bonds(12,var,4)), int(bonds(13,var,4))
-  end do
+!  do var = 1, atom_count
+!       write(200,'(13(I5,1X))') int(bonds(1,var,4)), int(bonds(2,var,4)), int(bonds(3,var,4)), &
+!          int(bonds(4,var,4)), int(bonds(5,var,4)), int(bonds(6,var,4)) ,int(bonds(7,var,4)), &
+!          int(bonds(8,var,4)), int(bonds(9,var,4)), int(bonds(10,var,4)), int(bonds(11,var,4)) &
+!          , int(bonds(12,var,4)), int(bonds(13,var,4))
+!  end do
   write(200,'(20X)')
 !
 !-------------------- Closing and deallocating memory ---------------------------
