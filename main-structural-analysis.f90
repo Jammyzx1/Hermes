@@ -15,6 +15,7 @@
 module structurechanges
 
   use module_subroutines
+!  use module_structure_determine
   use module_bonding
 
   implicit none
@@ -68,7 +69,8 @@ module structurechanges
 !
     i = 1   
     if(filename.eq.'auto') then
-        call bonding ! subroutine in module-binding.f90
+        call bonding ! subroutin in module-bonding.f90
+!        call bonding_determine ! subroutine in module-structure-determination.f90
         filename = 'structure_input.txt'
         write(200,'(A)') 'filename of structure input ', trim(filename)
         print*, 'Do you wish to continue or do you want to look at the input file the taht has been autiomatically created &

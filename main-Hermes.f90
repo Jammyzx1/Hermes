@@ -43,7 +43,7 @@ Program Hermes
   
   implicit none
   
-  integer :: ierr, narg, i, j, k, l, tasklen
+  integer :: ierr, narg, i, j, k, l, tasklen, noptions
   character (len=100) :: fname, dummy, dummy2, dummy3, dummy4, strucfname, solutefname, connect, strucatom
   character (len=9) :: dum, task, Omicro, solutemicro, chargemicro, atomnummicro
   character (len=72) :: line
@@ -108,6 +108,7 @@ Program Hermes
  k = 0
  l = 0
  narg = 0
+ noptions = 0
 ! 
 !----------------------------------------- Get input ---------------------------------------------------------------------
 ! 
@@ -151,6 +152,8 @@ Program Hermes
        print*,'dummy ', dum
        print*,'Task ', task
        ierr = 1
+    else
+       print*, 'ERROR: Task was not given on the first input line of input file please check. Input file - ', fname
     end if
  end do
  write(500,'(A)')'Task ', trim(adjustl(task))
@@ -166,12 +169,21 @@ Program Hermes
         if(index(line,'filename').ne.0) then         ! File of bonding, angle and dihedral information or auto to make it itself
             read(line,*), dummy, strucfname
             strucfname=trim(adjustl(strucfname))
+            noptions = noptions + 1                  ! The noptions variable counts the number of valid options found in the input file too few or too many gives an error
         else if(index(line,'atom').ne.0) then        ! The atom label to centre the viewing file on
             read(line,*), dummy, strucatom
             strucatom=trim(adjustl(strucatom))
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.lt.2) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task structure', noptions
+               stop 'ERROR: Too few arguments passed for task structure'
+            else if (noptions.gt.2) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task structure', noptions
+               stop 'ERROR: Too many arguments passed for task structure'
+            end if
             ierr=1
         end if
     end do
@@ -184,12 +196,21 @@ Program Hermes
         if(index(line,'filename').ne.0) then         ! File of bonding, angle and dihedral information or auto to make it itself
             read(line,*), dummy, strucfname
             strucfname=trim(adjustl(strucfname))
+            noptions = noptions + 1
         else if(index(line,'atom').ne.0) then        ! The atom label to centre the viewing file on
             read(line,*), dummy, strucatom
             strucatom=trim(adjustl(strucatom))
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.lt.2) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task 1'
+               stop 'ERROR: Too few arguments passed for task 1'
+            else if (noptions.gt.2) then 
+               write(500,'(A)') 'ERROR: Too many arguments passed for task 1'
+               stop 'ERROR: Too many arguments passed for task 1'
+            end if
             ierr=1
         end if
     end do
@@ -203,16 +224,27 @@ Program Hermes
         read(700,'(A)') line
         if(index(line,'Otype').ne.0) then            ! Water O label eg OTP
             read(line,*), dummy, Omicro
+            noptions = noptions + 1
         else if(index(line,'solute name').ne.0) then      ! The atom label of the solute to calculate the RDF from
             read(line,*), dummy, solutemicro
+            noptions = noptions + 1
         else if(index(line,'solvent charge sites').ne.0) then      ! The number of solvent charge sites
             read(line,*), dummy, dummy2, dummy3, chargemicro
+            noptions = noptions + 1
         else if(index(line,'solute number').ne.0) then      ! The number of solute atoms
            print*,'2',line
             read(line,*), dummy, dummy2, atomnummicro
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.lt.4) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task microsolv'
+               stop 'ERROR: Too few arguments passed for task microsolv'
+            else if (noptions.gt.4) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task microsolv'
+               stop 'ERROR: Too many arguments passed for task micosolv'
+            end if
             ierr=1
         end if
      end do
@@ -225,15 +257,26 @@ Program Hermes
         read(700,'(A)') line
         if(index(line,'Otype').ne.0) then            ! Water O label eg OTP
             read(line,*), dummy, Omicro
+            noptions = noptions + 1
         else if(index(line,'solute name').ne.0) then      ! The atom label of the solute to calculate the RDF from
             read(line,*), dummy, solutemicro
+            noptions = noptions + 1
         else if(index(line,'solvent charge sites').ne.0) then      ! The number of solvent charge sites
             read(line,*), dummy, dummy2, dummy3, chargemicro
+            noptions = noptions + 1
          else if(index(line,'solute number').ne.0) then      ! The number of solute atoms 
             read(line,*), dummy, dummy2, atomnummicro
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.lt.4) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task 2'
+               stop 'ERROR: Too few arguments passed for task 2'
+            else if (noptions.gt.4) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task 2'
+               stop 'ERROR: Too many arguments passed for task 2'
+            end if
             ierr=1
         end if
      end do
@@ -249,15 +292,26 @@ Program Hermes
         read(700,'(A)') line
         if(index(line,'Otype').ne.0) then                  ! Water O label eg OTP
             read(line,*), dummy, Omicro
+            noptions = noptions + 1
         else if(index(line,'solute filename').ne.0) then      ! filename of a file which has the atom labels of the solute to calculate the RDF from
             read(line,*), dummy, dummy2, solutefname
+            noptions = noptions + 1
         else if(index(line,'solvent charge sites').ne.0) then      ! The number of solvent charge sites 
             read(line,*), dummy, dummy2, dummy3, chargemicro
+            noptions = noptions + 1
         else if(index(line,'solute number').ne.0) then      ! The number of solute atoms 
             read(line,*), dummy, dummy2, atomnummicro
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.lt.4) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task solvshell'
+               stop 'ERROR: Too few arguments passed for task solvshelll'
+            else if (noptions.gt.4) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task solvshell'
+               stop 'ERROR: Too many arguments passed for task solvshell'
+            end if
             ierr = 1
         end if
     end do
@@ -269,15 +323,26 @@ Program Hermes
         read(700,'(A)') line
         if(index(line,'Otype').ne.0) then                  ! Water O label eg OTP
             read(line,*), dummy, Omicro
+            noptions = noptions + 1
         else if(index(line,'solute filename').ne.0) then      ! filename of a file which has the atom labels of the solute to calculate the RDF from
             read(line,*), dummy, dummy2, solutefname
+            noptions = noptions + 1
         else if(index(line,'solvent charge sites').ne.0) then      ! The number of solvent charge sites 
             read(line,*), dummy, dummy2, dummy3, chargemicro
+            noptions = noptions + 1
         else if(index(line,'solute number').ne.0) then      ! The number of solute atoms 
             read(line,*), dummy, dummy2, atomnummicro
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.lt.4) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task 3'
+               stop 'ERROR: Too few arguments passed for task 3'
+            else if (noptions.gt.4) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task 3'
+               stop 'ERROR: Too many arguments passed for task 3'
+            end if
             ierr = 1
         end if
     end do
@@ -289,13 +354,19 @@ Program Hermes
  else if(index(task,'statskrig').ne.0) then
      do while(ierr.eq.0)
          read(700,'(A)') line
-        if(index(line,'multipole').ne.0) then                  ! Water O label eg OTP
+        if(index(line,'multipole').ne.0) then                  ! For multipole moments
+            noptions = noptions + 1
             call krigcoefficent
-        else if(index(line,'IQA').ne.0) then      ! filename of a file which has the atom labels of the solute to calculate the RDF from
-            call krigcoefficentiqa
+        else if(index(line,'IQA').ne.0) then                   ! For IQA
+            noptions = noptions + 1
+            call krigcoefficentiqa 
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.eq.0) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task statskrig'
+               stop 'ERROR: Too few arguments passed for task statskrig'
+            end if
             ierr = 1
         end if
      end do
@@ -303,13 +374,19 @@ Program Hermes
  else if(index(task,'4').ne.0) then
      do while(ierr.eq.0)
          read(700,'(A)') line
-        if(index(line,'multipole').ne.0) then                  ! Water O label eg OTP
+        if(index(line,'multipole').ne.0) then                  ! For multipole moments
+            noptions = noptions + 1
             call krigcoefficent
-        else if(index(line,'IQA').ne.0) then      ! filename of a file which has the atom labels of the solute to calculate the RDF from
+        else if(index(line,'IQA').ne.0) then                   ! For IQA
+            noptions = noptions + 1
             call krigcoefficentiqa
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
+            if (noptions.eq.0) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task 4'
+               stop 'ERROR: Too few arguments passed for task 4'
+            end if
             ierr = 1
         end if
      end do

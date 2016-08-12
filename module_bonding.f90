@@ -367,7 +367,7 @@ contains
 !
 !--------------- Re-zero bonds --------------------------------------------------
 !
-  bonds = 0.0
+!  bonds = 0.0
 !
 !-------------------- Get all unique angles -------------------------------------
 !
@@ -397,6 +397,7 @@ contains
         call bondlength(coord_1,coord_2,bond_length)
 !        
         n = int(bonds(i,1,4))
+	print*, 'n = ', n, ' bonds(i,1,4) = ', bonds(i,1,4)
         m = int(bonds(j,1,4))
         hydrogen = index(atoms(n),'H')
         hydrogen2 = index(atoms(m),'H')
