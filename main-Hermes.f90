@@ -1,5 +1,5 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! Originally created by James McDonagh, Rob Coates and Stuart Davie (Contributions from Dale Stuchfield)!
+! Originally created by James McDonagh, Stuart Davie and Rob Coates (Contributions from Dale Stuchfield)!
 ! at the University of Manchester 2015 in the Popelier group.                                           !
 ! Acknowledge the use of strip spaces from Jauch 27 November and sort_asend from Rossetta code          !
 ! Licensed under Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)                                      !
@@ -40,13 +40,22 @@ Program Hermes
   use HISTORYrdf
   use krigingcoefficient
   use krigingcoefficientiqa
+  use den_nodes
+  use wat_order
+  use analysis_of_varience
+  use nodorder
+  use solorder
   
   implicit none
   
-  integer :: ierr, narg, i, j, k, l, tasklen, noptions
-  character (len=100) :: fname, dummy, dummy2, dummy3, dummy4, strucfname, solutefname, connect, strucatom
-  character (len=9) :: dum, task, Omicro, solutemicro, chargemicro, atomnummicro
-  character (len=72) :: line
+  integer              :: ierr, narg, i, j, k, l, tasklen, noptions, AtomsBefore, NoWater, o_lap, natoms, Nbins, status
+  double precision     :: res, fvt
+  character (len=100)  :: fname, dummy, dummy2, dummy3, dummy4, strucfname, solutefname, connect, strucatom
+  character (len=300)  :: buffer 
+  character (len=9)    :: dum, task, Omicro, solutemicro, chargemicro, atomnummicro
+  character (len=72)   :: line
+  character (len=50)   :: TSname
+  logical              :: file_ex, file_ex2
 
   print*,'------------------------------------ HERMES Version 1.1 ----------------------'
   print*,' TASK 1 : Determines the structural deviations over a DL POLY MD trajectory or' 
@@ -390,6 +399,201 @@ Program Hermes
             ierr = 1
         end if
      end do
+
+!
+!- - - - - - - - - Task 5 - - - - - - - - -     
+!
+ else if(index(task,'featorder').ne.0) then
+    do while(ierr.eq.0)
+        read(700,'(A)') line
+        if(index(line,'Training_set_name').ne.0) then         
+            read(line,*), dummy, TSname
+            TSname=trim(adjustl(TSname))
+            noptions = noptions + 1                  
+        else if(index(line,'No_Solute_atoms').ne.0) then        
+            read(line,*), dummy, AtomsBefore
+            noptions = noptions + 1
+        else if(index(line,'No_waters').ne.0) then        
+            read(line,*), dummy, NoWater
+            noptions = noptions + 1
+        else if(index(line,'Resolution').ne.0) then        
+            read(line,*), dummy, res
+            noptions = noptions + 1
+        else if(index(line,'Overlap').ne.0) then        
+            read(line,*), dummy, O_lap
+            noptions = noptions + 1
+        else if(index(line,'Feat_var_thresh').ne.0) then        
+            read(line,*), dummy, fvt
+            noptions = noptions + 1
+        else if(index(line,'No_bins').ne.0) then        
+            read(line,*), dummy, Nbins
+            noptions = noptions + 1
+        else if(index(line,'END').ne.0) then
+            print*, 'Input file read'
+            write(500,'(A)') 'Input file read'
+            if (noptions.lt.7) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task structure', noptions
+               stop 'ERROR: Too few arguments passed for task structure'
+            else if (noptions.gt.7) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task structure', noptions
+               stop 'ERROR: Too many arguments passed for task structure'
+            end if
+            ierr=1
+        end if
+    end do
+    call density_nodes(TSname, AtomsBefore, NoWater, res, O_lap)
+    call waterorder(TSname, AtomsBefore, NoWater)
+    call anova(TSname, AtomsBefore, NoWater, fvt, Nbins)
+    call node_order(natoms, AtomsBefore, NoWater)
+    call solvent_order(TSname, AtomsBefore, NoWater)
+ 
+    inquire (file='FINPUT-original.txt', exist=file_ex)
+    inquire (file='FINPUT.txt', exist=file_ex2)
+    status = 0 
+    if (file_ex.eqv..FALSE..and.file_ex2.eqv..TRUE.) then
+       open(status="new", unit=706, file='FINPUT-original.txt', action="write",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening new file FINPUT-original.txt'
+       end if
+       ierr=0
+       open(status="old", unit=705, file='FINPUT.txt', action="read",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening FINPUT.txt'
+       end if
+       ierr=0
+       
+       do while (ierr.eq.0)
+          read(705,'(A)',iostat=ierr) buffer
+          write(706,'(A)') buffer
+       end do
+       if(ierr > 0) then
+          print*, 'ERROR - Reading FINPUT.txt to copy to FINPUT-original.txt'
+       end if
+       close(705)
+       close(706)
+       
+       ierr = 0
+       open(status="replace", unit=706, file='FINPUT.txt', action="write",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening new file FINPUT.txt to overwrite'
+       end if
+       ierr = 0
+       open(status="old", unit=705, file='FINPUT-original.txt', action="read",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening FINPUT-original.txt'
+       end if
+       ierr = 0
+
+       do while (ierr.eq.0)
+          read(705,'(A)',iostat=ierr) buffer
+          if(index(buffer,'natoms').ne.0) then
+             write(706,'(A6,1X,I5)') 'natoms',natoms
+          else
+             write(706,'(A)') buffer
+          end if
+       end do
+    else
+       print*, 'Cannot correct the FINPUT.txt file automatically this should be done by hand'
+       print*, 'Change the values of natoms in the FINPUT.txt file to the value in '
+       print*, 'Change_natoms_in_FINPUT_to_value_in_this_file.txt'
+    end if
+          write(500,'(A)') 'Feature ordering finished normally'
+!
+ else if (index(task,'5').ne.0) then
+    do while(ierr.eq.0)
+        read(700,'(A)') line
+        if(index(line,'Training_set_name').ne.0) then         
+            read(line,*), dummy, TSname
+            TSname=trim(adjustl(TSname))
+            noptions = noptions + 1                  
+        else if(index(line,'No_Solute_atoms').ne.0) then        
+            read(line,*), dummy, AtomsBefore
+            noptions = noptions + 1
+        else if(index(line,'No_waters').ne.0) then        
+            read(line,*), dummy, NoWater
+            noptions = noptions + 1
+        else if(index(line,'Resolution').ne.0) then        
+            read(line,*), dummy, res
+            noptions = noptions + 1
+        else if(index(line,'Overlap').ne.0) then        
+            read(line,*), dummy, O_lap
+            noptions = noptions + 1
+        else if(index(line,'Feat_var_thresh').ne.0) then        
+            read(line,*), dummy, fvt
+            noptions = noptions + 1
+        else if(index(line,'No_bins').ne.0) then        
+            read(line,*), dummy, Nbins
+            noptions = noptions + 1
+        else if(index(line,'END').ne.0) then
+            print*, 'Input file read'
+            write(500,'(A)') 'Input file read'
+            if (noptions.lt.7) then
+               write(500,'(A)') 'ERROR: Too few arguments passed for task structure', noptions
+               stop 'ERROR: Too few arguments passed for task structure'
+            else if (noptions.gt.7) then
+               write(500,'(A)') 'ERROR: Too many arguments passed for task structure', noptions
+               stop 'ERROR: Too many arguments passed for task structure'
+            end if
+            ierr=1
+        end if
+    end do
+    call density_nodes(TSname, AtomsBefore, NoWater, res, O_lap)
+    call waterorder(TSname, AtomsBefore, NoWater)
+    call anova(TSname, AtomsBefore, NoWater, fvt, Nbins)
+    call node_order(natoms, AtomsBefore, NoWater)
+    call solvent_order(TSname, AtomsBefore, NoWater)
+ 
+    inquire (file='FINPUT-original.txt', exist=file_ex)
+    inquire (file='FINPUT.txt', exist=file_ex2)
+    status = 0 
+    if (file_ex.eqv..FALSE..and.file_ex2.eqv..TRUE.) then
+       open(status="new", unit=706, file='FINPUT-original.txt', action="write",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening new file FINPUT-original.txt'
+       end if
+       ierr=0
+       open(status="old", unit=705, file='FINPUT.txt', action="read",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening FINPUT.txt'
+       end if
+       ierr=0
+       
+       do while (ierr.eq.0)
+          read(705,'(A)',iostat=ierr) buffer
+          write(706,'(A)') buffer
+       end do
+       if(ierr > 0) then
+          print*, 'ERROR - Reading FINPUT.txt to copy to FINPUT-original.txt'
+       end if
+       close(705)
+       close(706)
+       
+       ierr = 0
+       open(status="replace", unit=706, file='FINPUT.txt', action="write",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening new file FINPUT.txt to overwrite'
+       end if
+       ierr = 0
+       open(status="old", unit=705, file='FINPUT-original.txt', action="read",iostat=ierr)
+       if(ierr > 0) then
+          print*, 'ERROR - opening FINPUT-original.txt'
+       end if
+       ierr = 0
+
+       do while (ierr.eq.0)
+          read(705,'(A)',iostat=ierr) buffer
+          if(index(buffer,'natoms').ne.0) then
+             write(706,'(A6,1X,I5)') 'natoms',natoms
+          else
+             write(706,'(A)') buffer
+          end if
+       end do
+    else
+       print*, 'Cannot correct the FINPUT.txt file automatically this should be done by hand'
+       print*, 'Change the values of natoms in the FINPUT.txt file to the value in '
+       print*, 'Change_natoms_in_FINPUT_to_value_in_this_file.txt'
+    end if
+          write(500,'(A)') 'Feature ordering finished normally'
 !
 !- - - - - - - - No input - - - - - - - - -
 !
