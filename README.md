@@ -1,19 +1,21 @@
 # Hermes
-Structural analysis tool for normal modes distortion and molecular dynamics trajectories
+Structural analysis tool for normal modes distortion and molecular dynamics trajectories. Solvent shell cutting from MD trajectory. Feature reordering for solvated system feature reordering for FERBUS.
 
 README for Hermes Version 1.1
 
-Documentation last updated 4/5/16
+Documentation last updated 22/09/16
 
-Hermes is designed in a modular format for easy upkeep and modification. Hermes is principally an analysis tool,
-allowing statistical data based on the sampling and kriging models to be easily calculated. Additional statistics
-can easily be added if they are thought to be useful. Hermes is also capable of cutting out the first solvation 
-shell of a solute molecule or a microsolvation shell of 1 atom in the solute molecule in question.
+Hermes is designed in a modular format for easy upkeep and modification. Hermes was principally an analysis tool when it was first written, allowing statistical data based on the sampling and kriging models to be easily calculated. Additional statistics
+can easily be added if they are thought to be useful. Hermes is now also capable of:
+
+- Statistical analysis of molecular geometries over DL POLY trajectory or TYCHE distortion.
+- Cutting out the first solvation for a solute or atom of a solute from DL POLY trajectory 
+- Reordering and reducing of solvated systems features for Kriging with FEREBUS  
 
 Hermes requires an input file for which examples and explanations are given below. Each task has additional 
 required input file(s), these are listed in the task descriptions in this file. Hermes has an additional 
 directory of pre and post processing scripts written in python. These can prepare the other input files where 
-necessary. There is also an R sub directory which contains an automatic plotting script for R for use after Task 1.
+necessary. There is also an R sub-directory, which contains an automatic plotting script for R for use after Task 1.
 
 We provide a list of and description of each *.f90 routine below, this should be updated between versions. 
 Main files, which all begin main*, are the control files these call the appropriate routines to carry out the tasks.
@@ -28,7 +30,7 @@ _____
 
 main-Hermes.f90
 ---------------
-This file is main control file it requests the input file form the user (usually named input.hermes) and reads the
+This file is main control file it requests the input file from the user (usually named input.hermes) and reads the
 options. Having read the options the correct task is selected and appropriate arguments read before calling the
 main subroutine related to that task
 
@@ -99,6 +101,25 @@ main-iqa-prediction-stats.f90
 This file is the only file required for to calculated statistics based on a kriging model for predictions using AIMAll IQA terms. 
 The file gives an output of of prediction_evaluation_metrics.txt
 
+main-densnodes_auto.f90
+-----------------------------------
+This file caluclates the solvent density in a particular region as a weighted sum accounting for denisty in neighbouring areas. The resolution parameter determines the size of the volume elements and the overlap determine the amount of influence neightbouring areas denisty has. Nodes are placed at the regions of highest denisty.
+
+main-waterorderauto.f90
+-----------------------------------
+Here the code orders the water features to represent them in relation to the node positions. This reduces the conformational space of the water as for example water 1 will always the closest water molecule to node 1 dispite the fact that the particular moelcule labelled as water one originally may now be the cloest water molecule to node 7. 
+
+main-anova_auto.f90
+-----------------------------------
+Code performs an ANOVA to define which features are most important to describing that atom
+
+main-noderank_auto.f90
+-----------------------------------
+Now the features are reordered and reduced based on importance.
+
+main-solorder.f90
+-----------------------------------
+Reorders the solvent molecules.
 
 MODULES
 _______
@@ -319,5 +340,51 @@ END <br />
 task 4 <br />
 IQA <br />
 END
+
+-------------------------------------------------
+
+## FOR TASK 5
+######Options are :
+###### Training_set_name - Name of the training set file
+###### No_Solute_atoms - The number of solute atoms, it is assumed the solute atoms are always the first defined
+###### No_waters - Number of water molecule
+###### Resolution - Used to define the volume the density is calculate for. Suggested default 0.05
+###### Overlap - Number of neighbouring denisty regions to consider in weighted sum for denisty definition
+###### Feat_var_thresh - Treshold to consider a feature important. Suggested default 4
+###### No_bins - Number of bins. Suggested default 6
+
+ REQUIRES FINPUT FILE AND TRAINING SET FILE IN THE SAME DIRECTORY EXPECTS TO BE RUN IN A FEREBUS ATOM FOLDER
+
+------------------------------------------------
+
+task featorder <br />
+Training_set_name       C11_TRAINING_SET.txt <br />
+No_Solute_atoms         13 <br />
+No_waters               26 <br />
+Resolution              0.05 <br />
+Overlap                 4 <br />
+Feat_var_thresh         0.1 <br />
+No_bins                 6 <br />
+END <br />
+
+task 5 <br />
+Training_set_name       C11_TRAINING_SET.txt <br />
+No_Solute_atoms         13 <br />
+No_waters               26 <br />
+Resolution              0.05 <br />
+Overlap                 4 <br />
+Feat_var_thresh         0.1 <br />
+No_bins                 6 <br />
+END <br />
+
+task featorder <br />
+Training_set_name       O7_TRAINING_SET.txt <br />
+No_Solute_atoms         13 <br />
+No_waters               26 <br />
+Resolution              0.1 <br />
+Overlap                 2 <br />
+Feat_var_thresh         0.1 <br />
+No_bins                 6 <br />
+END <br />
 
 -------------------------------------------------
