@@ -24,13 +24,23 @@
 ! TASK 4 : Calculate prediction and model statistics from a Ferebus Kriging task. These are useful to 
 !          evaluate how good of model is made. This can be done for IQA (self and interaction) and 
 !          multipole models from FEREBUS kriging engine.
+! TASK 5 : Place nodes at high solvent density position in a system. Order the features such that they 
+!          are labelled relative to a fixed node position not labelled as free distingushable molecules.  
+!          Reduce the features by analysing the imporatnce. Cut doen the feature list, and keep a backup  
+!          of the original feature list. Cut out the first solvation shell around one atom from a
+!          DL POLY MD trajectory.
 !
 ! TASK 1 JMcD, TASK 2 and TASK 3 R.C., JMcD and S.D. TASK 4 S.D.(D.S. contributed to discussion of TASK1) 
+! TASK 5 S.D (contributions from JMcD)
 ! 
-! Version 1.1
+! GitHub website https://github.com/Jammyzx1/Hermes/tree/FINAL
+! GitHub alternative website https://github.com/Jammyzx1/Hermes
+!
+! Version 1.2
 ! CHANGE LOG 
 ! Version 1  : Separate programs with some interlinking pre and post processing
 ! Version 1.1: Modular format and incorporation in the Hermes program.
+! Version 1.2: Added functionality for reduction and sorting of training data.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 Program Hermes
@@ -57,7 +67,7 @@ Program Hermes
   character (len=50)   :: TSname
   logical              :: file_ex, file_ex2
 
-  print*,'------------------------------------ HERMES Version 1.1 ----------------------'
+  print*,'------------------------------------ HERMES Version 1.2 ----------------------'
   print*,' TASK 1 : Determines the structural deviations over a DL POLY MD trajectory or' 
   print*,'          normal mode distortions from Tyche. This is sampling statistcs and '
   print*,'          information. Pre-processing required HISTORY-XYZ.py'
@@ -79,6 +89,11 @@ Program Hermes
   print*,'          task. These are useful to evaluate how good of model is made. '
   print*,'          This can be done for IQA (self and interaction) and multipole'
   print*,'          models from FEREBUS kriging engine.'
+  print*,' TASK 5 : Place nodes at high solvent density position in a system. Order the ' 
+  print*,'          features such that they are labelled relative to a fixed node position'  
+  print*,'          not labelled as free distingushable molecules. Reduce the features by'    
+  print*,'          analysing the imporatnce. Cut down the feature list, and keep a backup of' 
+  print*,'          the original feature list.' 
   print*,'------------------------------------------------------------------------------'
 
   open (status="replace", unit=500, file="Hermes.log", action="write",iostat=ierr)                                ! Unit 40 new output file BONDS
@@ -88,11 +103,11 @@ Program Hermes
      print*,'SUCCESS - Hermes.log has been created'
   end if
 
-  write(500,'(A)'), 'Hermes Version 1.1, authors J. L. McDonagh, R. Coates and S. Davie (contribution from Dale Stuchfield) '
+  write(500,'(A)'), 'Hermes Version 1.1, authors J. L. McDonagh, S. Davie and R. Coates (contribution from Dale Stuchfield) '
   write(500,'(A)'), 'Acknowledge the use of adapted routines : '
   write(500,'(A)'), 'strip spaces from Jauch 27 November'
   write(500,'(A)'), 'sort_asend from Rossetta code'
-  write(500,'(A)')'------------------------------------ HERMES Version 1.1 -----------------------------------------------'
+  write(500,'(A)')'------------------------------------ HERMES Version 1.2 -----------------------------------------------'
   write(500,'(A)')' TASK 1 : Determines the structural deviations over a DL POLY MD trajectory or normal mode distortions '
   write(500,'(A)')'          from Tyche. This is sampling statistcs and information. Pre-processing required HISTORY-XYZ.py'
   write(500,'(A)')'          or prep_Tychegjf_for_structure.py. Post-processing MDplot.R over the directories of csv files'
@@ -108,6 +123,10 @@ Program Hermes
   write(500,'(A)')' TASK 4 : Calculate prediction and model statistics from a Ferebus Kriging task. These are useful to' 
   write(500,'(A)')'          evaluate how good of model is made. This can be done for IQA (self and interaction) and'
   write(500,'(A)')'          multipole models from FEREBUS kriging engine.'
+  write(500,'(A)')' TASK 5 : Place nodes at high solvent density position in a system. Order the features such that ' 
+  write(500,'(A)')'          they are labelled relative to a fixed node position not labelled as free distingushable '  
+  write(500,'(A)')'          molecules. Reduce the features by analysing the imporatnce. Cut down the feature list, and'    
+  write(500,'(A)')'          keep a backup of the original feature list.' 
   write(500,'(A)')'-------------------------------------------------------------------------------------------------------'
 !
 !----------------------------------------- Initalisation -----------------------------------------------------------------
