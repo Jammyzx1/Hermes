@@ -1,7 +1,7 @@
 # Hermes
 Structural analysis tool for normal modes distortion and molecular dynamics trajectories. Solvent shell cutting from MD trajectory. Feature reordering for solvated system feature reordering for FERBUS.
 
-README for Hermes Version 1.1
+README for Hermes Version 1.2
 
 Documentation last updated 22/09/16
 
