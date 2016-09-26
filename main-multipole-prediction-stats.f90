@@ -5,7 +5,13 @@
 !	       formatting. If FINPUT.txt not present, will ask user for file instead
 ! CHANGE LOG 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    program GetStats
+    module Stats
+    
+   implicit none
+   
+  contains
+  
+  subroutine krigcoefficent
 
     implicit none
     integer 		::	i,j,NoPreds,linecount,ios,NoProps,PropCount,StartProp,F_Switch,DummyInt
@@ -232,7 +238,8 @@
 !!!******************************MAIN LOOP END**************************************************!
         enddo
         
-    end program GetStats
+    end subroutine krigcoefficent
+    
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     subroutine FINPUT_read(input_name,input_value,input_char,switch)	!
@@ -265,3 +272,5 @@
     return								!
     end subroutine							!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+end module Stats
