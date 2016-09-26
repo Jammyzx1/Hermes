@@ -5,6 +5,8 @@ README for Hermes Version 1.2
 
 Documentation last updated 22/09/16
 
+URL - https://github.com/Jammyzx1/Hermes/blob/FINAL
+
 Hermes is designed in a modular format for easy upkeep and modification. Hermes was principally an analysis tool when it was first written, allowing statistical data based on the sampling and kriging models to be easily calculated. Additional statistics
 can easily be added if they are thought to be useful. Hermes is now also capable of:
 
