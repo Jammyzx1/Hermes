@@ -48,7 +48,7 @@ Program Hermes
   use structurechanges
   use HISTORYRDFmicro
   use HISTORYrdf
-  use krigingcoefficient
+  use Stats
   use krigingcoefficientiqa
   use den_nodes
   use wat_order
