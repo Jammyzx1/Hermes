@@ -244,7 +244,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     subroutine FINPUT_read(input_name,input_value,input_char,switch)	!
     character*50 input_name,dummy,input_char,char_hold			!
-    integer input_value,linecount,ios,switch				!
+    integer input_value,linecount,ios,switch,i				!
 									!
     open(unit=3,file='FINPUT.txt',status='old')				!
     linecount=0								!
