@@ -1,17 +1,18 @@
 MDplot <- function(path1){
+	fs=.Platform$file.sep
 	count = 1
 	setwd(path1)
 	for(count in 1:3){
 		if(count==1) {
-			PathBonds <- paste(path1,"BONDS_plot",sep = "\\")
+			PathBonds <- paste(path1,"BONDS_plot",sep = fs)
 			message(PathBonds)
 			setwd(PathBonds)
 		} else if(count==2) {
-			PathAngles <- paste(path1,"ANGLES_plot",sep = "\\")
+			PathAngles <- paste(path1,"ANGLES_plot",sep = fs)
 			message(PathAngles)
 			setwd(PathAngles)
 		} else if(count==3) {
-			PathD <- paste(path1,"DIHEDRAL_plot",sep = "\\")
+			PathD <- paste(path1,"DIHEDRAL_plot",sep = fs)
 			message(PathD)
 			setwd(PathD)
 		} else {
