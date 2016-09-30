@@ -89,11 +89,11 @@ Program Hermes
   print*,'          task. These are useful to evaluate how good of model is made. '
   print*,'          This can be done for IQA (self and interaction) and multipole'
   print*,'          models from FEREBUS kriging engine.'
-  print*,' TASK 5 : Place nodes at high solvent density position in a system. Order the ' 
-  print*,'          features such that they are labelled relative to a fixed node position'  
-  print*,'          not labelled as free distingushable molecules. Reduce the features by'    
-  print*,'          analysing the imporatnce. Cut down the feature list, and keep a backup of' 
-  print*,'          the original feature list.' 
+  print*,' TASK 5 : Place nodes at high solvent density position in a system. Order the' 
+  print*,'          features such that they are labelled relative to a fixed node '  
+  print*,'          position not labelled as free distingushable molecules. Reduce the'    
+  print*,'          features by analysing the imporatnce. Cut down the feature list,' 
+  print*,'          and keep a backup of the original feature list.' 
   print*,'------------------------------------------------------------------------------'
 
   open (status="replace", unit=500, file="Hermes.log", action="write",iostat=ierr)                                ! Unit 40 new output file BONDS
