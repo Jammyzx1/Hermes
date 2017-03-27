@@ -1,7 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Originally created by James McDonagh at the University of Manchester 2015, in the Popelier group      !
 ! Contributions from Dale Stuchfield                                                                    !
-! Licensed under Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)                                      !
+! Licensed under MIT License                                      !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! Originally created by James with contributions from Dale stuchfield.

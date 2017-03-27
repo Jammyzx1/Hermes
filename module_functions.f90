@@ -1,7 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Originally created by James McDonagh at the University of Manchester 2015, in the Popelier group      ! 
 ! Components of the module are acknowledged to Dr Tanja van Mourik University of St Andrews             ! 
-! Licensed under Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)                                      !
+! Licensed under MIT License                                      !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! Originally created by James.

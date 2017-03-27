@@ -1,12 +1,14 @@
 !Created by Stuart Davie
 !********************************************************************************************************
-! Version 1  : Takes sets of microsolvated systems represented in spherical coordinates and reorders water molecules
+! Version 1  :  Takes sets of microsolvated systems represented in spherical coordinates and reorders water molecules
 !               based on proximity to nodes. If no nodes are input, orders by distance to central molecule. Can also strip water
 !		molecules from training set if desired.
 ! Version 1.1:  Modified into modular format for incorporation into Hermes by J. L. Mcdonagh September 2016
+! Version 1.2:  Allows a user defined minimum number of solvent molecules to surround the solute
 ! 
 ! CHANGE LOG 
 ! Version 1.1 Modularized for incorporation into Hermes
+! Version 1.2 Allows user to define a minimum number of solvent molecules around a solute 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -15,18 +17,20 @@
     contains 
 
     subroutine anova(Filename, AtomsBefore, NoWaters, Thresh, NoBins)
+
     character                     :: filename*30, AorF*1,DummyChar*50
     integer                       :: NoProps,NoFeats,ios,configNo,i,j,NoBins,BinNo,PropNo,FeatNo
     integer                       :: NoConfigs,BinAlo,curBin,FeatNo2,CurBin2,BinNo2,cross_switch
     double precision, allocatable :: featuresarray(:,:), propertiesarray(:,:),raw(:),TotalVar(:)
     double precision, allocatable :: maxminlist(:,:),meanlist(:,:,:),propmean(:),bvar(:,:),wvar(:,:,:)
     double precision, allocatable :: inner_means(:,:),inner_row_mean(:,:),max_array(:)
-    integer, allocatable          :: binlocation(:,:),bincount(:,:),inner_count(:,:)
+    integer, allocatable          :: binlocation(:,:),bincount(:,:),inner_count(:,:),Sel_Waters(:)
 !multi_anova
+
     double precision, allocatable :: dbvar(:,:),dwvar(:)
     double precision              :: inner_total_mean,inner_bvar(2),inner_wvar,inner_total_var,max_val
     double precision		  :: thresh2,thresh
-    integer			  :: atomsbefore,Nowaters,bmaxloc,counter
+    integer			  :: atomsbefore,Nowaters,bmaxloc,counter,MinWaters,ccwat
 
 !    call system('ls')
 !    print*,'file?'
@@ -60,6 +64,7 @@ if(ios.eq.0) then
    print*,Thresh
    read(11,*)DummyChar,NoBins
    print*,NoBins
+   read(11,*)DummyChar,MinWaters
 else
    print*,'error reading solv_input.txt'
 endif
@@ -85,6 +90,7 @@ NoProps=1
     print*,NoConfigs,' configurations'
     deallocate(raw)
     
+    allocate(Sel_Waters(NoWaters))
     allocate(featuresarray(NoFeats,NoConfigs))
     allocate(propertiesarray(NoProps,NoConfigs))
     allocate(maxminlist(NoFeats,3))
@@ -240,27 +246,54 @@ NoProps=1
     enddo
     close(3)
 
-
+    Sel_Waters=0
     open(unit=5,file='ordered_features.txt',status='unknown')
     do PropNo=1,NoProps
        max_array(:)=bvar(:,PropNo)
        max_val=maxval(max_array)
        counter=0
        do FeatNo=1,NoFeats
-          if(bvar(Maxloc(max_array,1),PropNo)/max_val.gt.thresh) then
-             counter=counter+1
-             max_array(Maxloc(max_array))=minval(max_array)-1
+          if(Maxloc(max_array,1).le.(AtomsBefore*3-6)) then
+             if(bvar(Maxloc(max_array,1),PropNo)/max_val.gt.thresh) then
+                max_array(Maxloc(max_array))=minval(max_array)-1
+                counter=counter+1
+	!	print*,Maxloc(max_array,1)
+             endif
+          else
+	     if (sum(Sel_Waters).lt.MinWaters) then
+		ccwat=ceiling(real(Maxloc(max_array,1)-(AtomsBefore*3-6))/9)
+		if(Sel_Waters(ccwat).lt.1) Sel_Waters(ccwat)=1		
+                max_array(Maxloc(max_array))=minval(max_array)-1
+                counter=counter+1
+             endif
+	!     print*,Maxloc(max_array,1),sum(Sel_waters),ccwat
           endif
        enddo
        write(5,*)'  Property',PropNo,' Total_SS ',TotalVar(PropNo),'Count ',Counter,'threshold ',thresh
        write(5,*)' Feature      BetweenSS  %_of_max %_or_total' 
        max_array(:)=bvar(:,PropNo)
        max_val=maxval(max_array)
+       sel_waters=0
+       counter=0
        do FeatNo=1,NoFeats
-          if(bvar(Maxloc(max_array,1),PropNo)/max_val.gt.thresh) then
+          if(Maxloc(max_array,1).le.(AtomsBefore*3-6)) then
+             if(bvar(Maxloc(max_array,1),PropNo)/max_val.gt.thresh) then
              write(5,*)Maxloc(max_array),bvar(Maxloc(max_array),PropNo),bvar(Maxloc(max_array),PropNo)/max_val*100,&
-                    &bvar(Maxloc(max_array),PropNo)/TotalVar(PropNo)*100
-             max_array(Maxloc(max_array))=minval(max_array)-1
+                       &bvar(Maxloc(max_array),PropNo)/TotalVar(PropNo)*100
+                max_array(Maxloc(max_array))=minval(max_array)-1
+                counter=counter+1
+	!	print*,Maxloc(max_array,1)
+             endif
+          else
+	     if (sum(Sel_Waters).lt.MinWaters) then
+		ccwat=ceiling(real(Maxloc(max_array,1)-(AtomsBefore*3-6))/9)
+		if(Sel_Waters(ccwat).lt.1) Sel_Waters(ccwat)=1		
+             write(5,*)Maxloc(max_array),bvar(Maxloc(max_array),PropNo),bvar(Maxloc(max_array),PropNo)/max_val*100,&
+                          &bvar(Maxloc(max_array),PropNo)/TotalVar(PropNo)*100
+                max_array(Maxloc(max_array))=minval(max_array)-1
+                counter=counter+1
+             endif
+	!     print*,Maxloc(max_array,1),sum(Sel_waters),ccwat
           endif
        enddo
        write(5,*)

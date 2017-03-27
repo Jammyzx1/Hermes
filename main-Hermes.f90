@@ -2,7 +2,7 @@
 ! Originally created by James McDonagh, Stuart Davie and Rob Coates (Contributions from Dale Stuchfield)!
 ! at the University of Manchester 2015 in the Popelier group.                                           !
 ! Acknowledge the use of strip spaces from Jauch 27 November and sort_asend from Rossetta code          !
-! Licensed under Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)                                      !
+! Licensed under MIT License                                      !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! File written by JMcD 3/4/16                                                                           !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -36,11 +36,13 @@
 ! GitHub website https://github.com/Jammyzx1/Hermes/tree/FINAL
 ! GitHub alternative website https://github.com/Jammyzx1/Hermes
 !
-! Version 1.2
+! Version 1.3
 ! CHANGE LOG 
 ! Version 1  : Separate programs with some interlinking pre and post processing
 ! Version 1.1: Modular format and incorporation in the Hermes program.
 ! Version 1.2: Added functionality for reduction and sorting of training data.
+! Version 1.3: Stuart has added the ability for the user to enable a fixed number of solvent molecules 
+!              around a solute
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 Program Hermes

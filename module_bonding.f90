@@ -1,6 +1,6 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Originally created by James McDonagh at the University of Manchester 2015, in the Popelier group      ! 
-! Licensed under Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)                                      !
+! Licensed under MIT License                                      !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! This is a messy subroutine that could be improved, but it is quick. Bonding is assumed within a

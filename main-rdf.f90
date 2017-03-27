@@ -1,7 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Program author Robert Coates, James L. McDonagh and Stuart Davie Created 2015 in the            !
 ! Popelier group, Univeristy of Manchester                                                        !
-! Licensed under Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)                                !
+! Licensed under MIT License                                !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! Originally created by Rob with oversight from S.D. Extensive edit and expansion by JMcD 
