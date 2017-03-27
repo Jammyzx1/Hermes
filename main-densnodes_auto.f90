@@ -124,7 +124,8 @@ contains
                    do o_lapz=-o_lap,o_lap					                                                                   ! 
                       lap_val(1)=abs(o_lapx);lap_val(2)=abs(o_lapy);lap_val(3)=abs(o_lapz)				                           !	
                       if(x_atom+o_lapx.gt.0 .and. y_atom+o_lapy.gt.0 .and. z_atom+o_lapz.gt.0) then                                                !
-                         if(x_atom+o_lapx.lt.(x_max-x_min+2) .and. y_atom+o_lapy.lt.(y_max-y_min+2) .and. z_atom+o_lapz.lt.(z_max-z_min+2)) then   !	
+                         if(x_atom+o_lapx.lt.(x_max-x_min+2) .and. y_atom+o_lapy.lt.(y_max-y_min+2) .and. &
+				z_atom+o_lapz.lt.(z_max-z_min+2)) then   !	
                             density_grid(x_atom+o_lapx,y_atom+o_lapy,z_atom+o_lapz)= &                                                             !
                                  density_grid(x_atom+o_lapx,y_atom+o_lapy,z_atom+o_lapz)+ (o_lap-maxval(lap_val)+1)				   !	
                          endif                                                                                                                     !

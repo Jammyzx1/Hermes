@@ -60,7 +60,8 @@ Program Hermes
   
   implicit none
   
-  integer              :: ierr, narg, i, j, k, l, tasklen, noptions, AtomsBefore, NoWater, o_lap, natoms, Nbins, status
+  integer              :: ierr, narg, i, j, k, l, tasklen, noptions, AtomsBefore, NoWater, o_lap, natoms, Nbins 
+  integer              :: istatus, MinWaters
   double precision     :: res, fvt
   character (len=100)  :: fname, dummy, dummy2, dummy3, dummy4, strucfname, solutefname, connect, strucatom
   character (len=300)  :: buffer 
@@ -473,7 +474,7 @@ Program Hermes
  
     inquire (file='FINPUT-original.txt', exist=file_ex)
     inquire (file='FINPUT.txt', exist=file_ex2)
-    status = 0 
+    istatus = 0 
     if (file_ex.eqv..FALSE..and.file_ex2.eqv..TRUE.) then
        open(status="new", unit=706, file='FINPUT-original.txt', action="write",iostat=ierr)
        if(ierr > 0) then
@@ -566,13 +567,13 @@ Program Hermes
     end do
     call density_nodes(TSname, AtomsBefore, NoWater, res, O_lap)
     call waterorder(TSname, AtomsBefore, NoWater)
-    call anova(TSname, AtomsBefore, NoWater, fvt, Nbins)
-    call node_order(natoms, AtomsBefore, NoWater, MinWaters)
+    call anova(TSname, AtomsBefore, NoWater, fvt, Nbins, MinWaters)
+    call node_order(natoms, AtomsBefore, NoWater)
     call solvent_order(TSname, AtomsBefore, NoWater)
  
     inquire (file='FINPUT-original.txt', exist=file_ex)
     inquire (file='FINPUT.txt', exist=file_ex2)
-    status = 0 
+    istatus = 0 
     if (file_ex.eqv..FALSE..and.file_ex2.eqv..TRUE.) then
        open(status="new", unit=706, file='FINPUT-original.txt', action="write",iostat=ierr)
        if(ierr > 0) then

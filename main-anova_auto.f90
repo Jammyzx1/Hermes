@@ -16,7 +16,7 @@
     implicit none
     contains 
 
-    subroutine anova(Filename, AtomsBefore, NoWaters, Thresh, NoBins)
+    subroutine anova(Filename, AtomsBefore, NoWaters, Thresh, NoBins, MinWaters)
 
     character                     :: filename*30, AorF*1,DummyChar*50
     integer                       :: NoProps,NoFeats,ios,configNo,i,j,NoBins,BinNo,PropNo,FeatNo
@@ -52,24 +52,24 @@
 !    print*,'No of bins'
 !    read*,NoBins
 !    print*,NoBins,'bins'
-open(unit=11,file='solv_input.txt',status='old',iostat=ios)
-if(ios.eq.0) then
-   read(11,*)DummyChar,FileName
-   print*,FileName
-   read(11,*)DummyChar,AtomsBefore
-   read(11,*)DummyChar,NoWaters
-   read(11,*)DummyChar
-   read(11,*)DummyChar
-   read(11,*)DummyChar,Thresh
-   print*,Thresh
-   read(11,*)DummyChar,NoBins
-   print*,NoBins
-   read(11,*)DummyChar,MinWaters
-else
-   print*,'error reading solv_input.txt'
-endif
-close(11)    
-    NoFeats=(AtomsBefore+3*NoWaters)*3-6
+!open(unit=11,file='solv_input.txt',status='old',iostat=ios)
+!if(ios.eq.0) then
+!   read(11,*)DummyChar,FileName
+!   print*,FileName
+!   read(11,*)DummyChar,AtomsBefore
+!   read(11,*)DummyChar,NoWaters
+!   read(11,*)DummyChar
+!   read(11,*)DummyChar
+!   read(11,*)DummyChar,Thresh
+!   print*,Thresh
+!   read(11,*)DummyChar,NoBins
+!   print*,NoBins
+!   read(11,*)DummyChar,MinWaters
+!else
+!   print*,'error reading solv_input.txt'
+!endif
+!close(11)    
+NoFeats=(AtomsBefore+3*NoWaters)*3-6
 print*,NoFeats
 NoProps=1
     cross_switch=0
