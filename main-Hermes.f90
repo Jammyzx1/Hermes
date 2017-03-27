@@ -449,13 +449,16 @@ Program Hermes
         else if(index(line,'No_bins').ne.0) then        
             read(line,*), dummy, Nbins
             noptions = noptions + 1
+        else if(index(line,'Min_waters').ne.0) then
+            read(line,*), dummy, MinWaters
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
-            if (noptions.lt.7) then
+            if (noptions.lt.8) then
                write(500,'(A)') 'ERROR: Too few arguments passed for task structure', noptions
                stop 'ERROR: Too few arguments passed for task structure'
-            else if (noptions.gt.7) then
+            else if (noptions.gt.8) then
                write(500,'(A)') 'ERROR: Too many arguments passed for task structure', noptions
                stop 'ERROR: Too many arguments passed for task structure'
             end if
@@ -464,7 +467,7 @@ Program Hermes
     end do
     call density_nodes(TSname, AtomsBefore, NoWater, res, O_lap)
     call waterorder(TSname, AtomsBefore, NoWater)
-    call anova(TSname, AtomsBefore, NoWater, fvt, Nbins)
+    call anova(TSname, AtomsBefore, NoWater, fvt, Nbins, MinWaters)
     call node_order(natoms, AtomsBefore, NoWater)
     call solvent_order(TSname, AtomsBefore, NoWater)
  
@@ -545,13 +548,16 @@ Program Hermes
         else if(index(line,'No_bins').ne.0) then        
             read(line,*), dummy, Nbins
             noptions = noptions + 1
+        else if(index(line,'Min_waters').ne.0) then
+            read(line,*), dummy, MinWaters
+            noptions = noptions + 1
         else if(index(line,'END').ne.0) then
             print*, 'Input file read'
             write(500,'(A)') 'Input file read'
-            if (noptions.lt.7) then
+            if (noptions.lt.8) then
                write(500,'(A)') 'ERROR: Too few arguments passed for task structure', noptions
                stop 'ERROR: Too few arguments passed for task structure'
-            else if (noptions.gt.7) then
+            else if (noptions.gt.8) then
                write(500,'(A)') 'ERROR: Too many arguments passed for task structure', noptions
                stop 'ERROR: Too many arguments passed for task structure'
             end if
@@ -561,7 +567,7 @@ Program Hermes
     call density_nodes(TSname, AtomsBefore, NoWater, res, O_lap)
     call waterorder(TSname, AtomsBefore, NoWater)
     call anova(TSname, AtomsBefore, NoWater, fvt, Nbins)
-    call node_order(natoms, AtomsBefore, NoWater)
+    call node_order(natoms, AtomsBefore, NoWater, MinWaters)
     call solvent_order(TSname, AtomsBefore, NoWater)
  
     inquire (file='FINPUT-original.txt', exist=file_ex)

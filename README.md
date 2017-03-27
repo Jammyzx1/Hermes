@@ -113,7 +113,7 @@ Here the code orders the water features to represent them in relation to the nod
 
 main-anova_auto.f90
 -----------------------------------
-Code performs an ANOVA to define which features are most important to describing that atom
+Code performs an ANOVA to define which features are most important to describing that atom. Can specifiy a minimum number of water molecules to surround the solute.
 
 main-noderank_auto.f90
 -----------------------------------
@@ -206,8 +206,8 @@ MDplot.R  - This script will automatically plot the data from task 1 in R. The c
 ## FORMAT
 ###### task is always the first parameter word and defines the calculation type
 ###### tasks can be defined by a word or the task number
-######Task 1 word structure number 1
-######Task 2 word microsolv number 2
+###### Task 1 word structure number 1
+###### Task 2 word microsolv number 2
 ###### Task 3 word solvshell number 3
 ###### Task 4 word statskrig number 4
 ###### The file always has a last line which states `END` for the last line of the input file
@@ -354,6 +354,7 @@ END
 ###### Overlap - Number of neighbouring denisty regions to consider in weighted sum for denisty definition
 ###### Feat_var_thresh - Treshold to consider a feature important. Suggested default 4
 ###### No_bins - Number of bins. Suggested default 6
+###### No_waters - the minimum number of water molecules to surround the solute molecule
 
  REQUIRES FINPUT FILE AND TRAINING SET FILE IN THE SAME DIRECTORY EXPECTS TO BE RUN IN A FEREBUS ATOM FOLDER
 
@@ -367,6 +368,7 @@ Resolution              0.05 <br />
 Overlap                 4 <br />
 Feat_var_thresh         0.1 <br />
 No_bins                 6 <br />
+Min_waters              1 <br />
 END <br />
 
 task 5 <br />
@@ -377,6 +379,7 @@ Resolution              0.05 <br />
 Overlap                 4 <br />
 Feat_var_thresh         0.1 <br />
 No_bins                 6 <br />
+Min_waters              9 <br />
 END <br />
 
 task featorder <br />
@@ -387,6 +390,7 @@ Resolution              0.1 <br />
 Overlap                 2 <br />
 Feat_var_thresh         0.1 <br />
 No_bins                 6 <br />
+Min_waters              5 <br />
 END <br />
 
 -------------------------------------------------
