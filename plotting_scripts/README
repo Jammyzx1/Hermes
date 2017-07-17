@@ -9,5 +9,8 @@ MDplot.R                         - This script will automatically plot the data 
                                    3. run the script
                                       MDplot.R(path)
 
-NOTE: This script is currently set for windows to use on UNIX systems please change the file separators from \\ to / on lines 6,
-10 and 14
+MDplot.py			  - This script will automatically plot the data from task 1 using python. Run the script and 
+				    pass in the path/to/run/hermes when prompted. The python script gives an additional histogram
+				    plot showing the distrbution of the motions.
+
+plot.py                           - Development version of MDPlot.py
