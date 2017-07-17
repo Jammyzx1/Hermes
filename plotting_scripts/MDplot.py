@@ -7,18 +7,25 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def plot(title, labx, laby, xdata, ydata, fname):
+	"""
+	A plotting function for the bond, angles and dihedral data. 
+	"""
 
+	# delete the column title from the lists
 	del xdata[0]
 	del ydata[0] 
 	
+	# map data from strings to float
 	xdata = map(float, xdata)
 	ydata = map(float, ydata)
 	
+	# plot scatter
 	fnam = fname + ".png"
 	fig = plt.figure(figsize=(20, 10))
 	plt.subplot(1, 2, 1)
 	plt.scatter(xdata, ydata, s=80, facecolors='none', edgecolors='k')
 	
+	# histogram
 	plt.subplot(1, 2, 2)
 	plt.hist(ydata, bins='auto', histtype="bar", color="k", orientation="horizontal")
 
@@ -26,7 +33,11 @@ def plot(title, labx, laby, xdata, ydata, fname):
 	plt.close()
 
 def bonds(lfin):
+	"""
+	Get the bond data from HERMES
+	"""
 
+	# loop over all files in the csv files in the current directory 
 	for ent in lfin:
 		print "Current file being analysed {} .....".format(ent)
 		title = ent.split(".")[0].strip() + "Bond Length"
@@ -38,7 +49,11 @@ def bonds(lfin):
 
 
 def angles(lfin):
+	"""
+	Get the angle data from HERMES
+	"""
 
+	# loop over all files in the csv files in the current directory 
 	for ent in lfin:
 		print "Current file being analysed {} .....".format(ent)
 		title = ent.split(".")[0].strip() + "Bond Angle"
@@ -49,7 +64,11 @@ def angles(lfin):
 		plot(title, labx, laby, xdata, ydata, ent.split(".")[0].strip())
 
 def dihedrals(lfin):
+	"""
+	Get the diheadral data from HERMES
+	"""
 
+	# loop over all files in the csv files in the current directory 
 	for ent in lfin:
 		print "Current file being analysed {} .....".format(ent)
 		title = ent.split(".")[0].strip() + "Dihedral Angle"
@@ -60,9 +79,16 @@ def dihedrals(lfin):
 		plot(title, labx, laby, xdata, ydata, ent.split(".")[0].strip())
 
 def main():
+	"""
+	Function to run bond, angle and dihedral angle analyses.
+	"""
+
 	count = 1
 	
+	# Get user input the path
 	path = raw_input(str("Please enter the path to running directory of HERMES "))
+
+	# loop over bonds, angles and dihedrals
 	for index in range(1, 4, 1):
 		if index == 1:
 			pathbonds = os.path.join(path, "BONDS_plot")
