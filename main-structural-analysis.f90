@@ -73,12 +73,16 @@ module structurechanges
 !        call bonding_determine ! subroutine in module-structure-determination.f90
         filename = 'structure_input.txt'
         write(200,'(A)') 'filename of structure input ', trim(filename)
-        print*, 'Do you wish to continue or do you want to look at the input file the taht has been autiomatically created &
-            ? (c carry on : e exit ) '
-        read*, dummy
-        if(dummy.eq.'e') then
-            stop
-        end if
+        print*, 'Press Ctrl + c now to exit if you just wanted the bond, angle and dihedral file written automatically &
+            but now want to edit it. Hermes will now sleep for 10 seconds to give you chance to decide before &
+            automatically continuing.'
+        call sleep(10)
+        !print*, 'Do you wish to continue or do you want to look at the input file the taht has been autiomatically created &
+        !    ? (c carry on : e exit ) '
+        !read*, dummy
+        !if(dummy.eq.'e') then
+        !    stop
+        !end if
     end if
     
     inquire (file=filename, exist=file_ex)
