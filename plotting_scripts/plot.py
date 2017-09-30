@@ -59,10 +59,11 @@ def dihedrals(lfin):
 		ydata = [elt.split(",")[-1].strip() for elt in open(ent, "r")] 
 		plot(title, labx, laby, xdata, ydata, ent.split(".")[0].strip())
 
-def main():
+def main(path=None):
 	count = 1
 	
-	path = raw_input(str("Please enter the path to running directory of HERMES "))
+        if path == None:
+            path = str(raw_input("Please enter the path to running directory of HERMES "))
 	for index in range(1, 4, 1):
 		if index == 1:
 			pathbonds = os.path.join(path, "BONDS_plot")
@@ -86,4 +87,7 @@ def main():
 	print "FINISHED"
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
 	main()	
