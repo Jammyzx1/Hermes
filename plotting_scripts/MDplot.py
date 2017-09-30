@@ -78,7 +78,7 @@ def dihedrals(lfin):
 		ydata = [elt.split(",")[-1].strip() for elt in open(ent, "r")] 
 		plot(title, labx, laby, xdata, ydata, ent.split(".")[0].strip())
 
-def main():
+def main(path=None):
 	"""
 	Function to run bond, angle and dihedral angle analyses.
 	"""
@@ -86,7 +86,8 @@ def main():
 	count = 1
 	
 	# Get user input the path
-	path = raw_input(str("Please enter the path to running directory of HERMES "))
+        if path == None:
+	    path = str(raw_input("Please enter the path to running directory of HERMES "))
 
 	# loop over bonds, angles and dihedrals
 	for index in range(1, 4, 1):
@@ -112,4 +113,7 @@ def main():
 	print "FINISHED"
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
 	main()	
